@@ -24,33 +24,30 @@ public class Main {
                 .collect(Collectors.toList());
     }
 
-  static String first_non_repeating_letter(String s){
-        ArrayList<Character> result = new ArrayList<>();
-        Set<Character> duplicates = new HashSet<>();
-        for (int i = s.length()-1; i >= 0 ; i--) {
-            String lowerCase = String.valueOf(s.charAt(i)).toLowerCase();
-            String upperCase = String.valueOf(s.charAt(i)).toUpperCase();
-            Boolean duplicatesContainsLower = duplicates.contains(lowerCase.charAt(0));
-            Boolean duplicatesContainsUpper = duplicates.contains(upperCase.charAt(0));
-            Boolean resultContainsLower = result.contains(lowerCase.charAt(0));
-            Boolean resultContainsUpper = result.contains(upperCase.charAt(0));
-
-            Boolean duplicatesContains = duplicatesContainsLower || duplicatesContainsUpper;
-            Boolean resultContains = resultContainsLower || resultContainsUpper;
-            if(!(duplicatesContains || resultContains)){
-                result.add(s.charAt(i));
-            } else if (resultContainsLower) {
-                result.remove(Character.valueOf(s.charAt(i)));
-                duplicates.add(s.charAt(i));
-            } else if (resultContainsUpper) {
-                result.remove(Character.valueOf(s.charAt(i)));
-                duplicates.add(s.charAt(i));
+    private static String first_non_repeating_letter(String s) {
+        LinkedHashMap<Character,Integer> sortedChar2Idx
+                = new LinkedHashMap<>() {};
+        String lower = s.toLowerCase();
+        for (int i=0; i<lower.length(); i++) {
+            Character c = lower.charAt(i);
+            if(sortedChar2Idx.containsKey(c)){
+//              If there is a duplicate, set the value to -1 as an index flag
+                sortedChar2Idx.put(c,-1);
+            } else {
+//              Otherwise, set the index in the original string
+                sortedChar2Idx.put(c,i);
             }
         }
-        if( result.size()==0){return "";}
-        return String.valueOf(result.get(result.size()-1));
+        List<Character> keys = new LinkedList<>(sortedChar2Idx.keySet());
+        for (int i = 0; i < sortedChar2Idx.size(); i++) {
+            Character c = keys.get(i);
+            if(sortedChar2Idx.get(c)!=-1){
+                Integer characterIdx = sortedChar2Idx.get(c);
+                return String.valueOf(s.charAt(characterIdx));
+            }
+        }
+        return "";
     }
-
     static  Integer digitalRoot (Integer number){
         int result = 0;
         while (number!=0){
@@ -103,7 +100,7 @@ public class Main {
     }
 
 
-    static Integer getBiggerRearranedNumber(Integer number)
+    static Integer getBiggerRearrangedNumber(Integer number)
     {
         Integer numberOfDigits = number.toString().length();
         StringBuilder numberStr = new StringBuilder(number.toString());
@@ -193,17 +190,17 @@ public class Main {
     static void extraTask1(){
         System.out.println("--------------------- ExtraTask 1 --------------------- ");
         System.out.print("12 ");
-        System.out.println(getBiggerRearranedNumber(12));
+        System.out.println(getBiggerRearrangedNumber(12));
         System.out.print("513 ");
-        System.out.println(getBiggerRearranedNumber(513));
+        System.out.println(getBiggerRearrangedNumber(513));
         System.out.print("2017 ");
-        System.out.println(getBiggerRearranedNumber(2017));
+        System.out.println(getBiggerRearrangedNumber(2017));
         System.out.print("1234 ");
-        System.out.println(getBiggerRearranedNumber(1234));
+        System.out.println(getBiggerRearrangedNumber(1234));
         System.out.print("4321 ");
-        System.out.println(getBiggerRearranedNumber(4321));
+        System.out.println(getBiggerRearrangedNumber(4321));
         System.out.print("534976 ");
-        System.out.println(getBiggerRearranedNumber(534976));
+        System.out.println(getBiggerRearrangedNumber(534976));
     }
 
 }
