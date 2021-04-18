@@ -71,6 +71,10 @@ public class Main {
         for (Integer element: arr) {
             if (counter.get(sum - element) != null)
                 twice_count += counter.get(sum - element);
+//            Remove sum of identicals
+            if (sum - element == element) {
+                twice_count--;
+            }
         }
         return twice_count/2;
     }
